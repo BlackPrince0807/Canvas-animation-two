@@ -1,0 +1,36 @@
+* {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  text-decoration: none;
+  scrollbar-width: auto;
+  scrollbar-color: #000000 #ffffff;
+}
+
+*::-webkit-scrollbar {
+  width: 10px;
+}
+
+*::-webkit-scrollbar-track {
+  background: #ffffff;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #000000;
+  border-radius: 10px;
+  border: 0px solid #000000;
+}
+
+body {
+  background-color: #000;
+  overflow-x: hidden;
+}
+
+.canvas_block {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+/*# sourceMappingURL=style.css.map */
