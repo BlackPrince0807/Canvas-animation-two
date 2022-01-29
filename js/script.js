@@ -5,6 +5,8 @@ const ctx = canvas.getContext('2d');
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 let particleArray = [];
+let adjustX = 5;
+let adjustY = -5;
 
 // handle mouse
 
@@ -16,13 +18,12 @@ const mouse = {
 window.addEventListener('mousemove', function(event) {
     mouse.x = event.x;
     mouse.y = event.y;
-    mouse.radius = 150;
 });
 
 ctx.fillStyle = 'white';
-ctx.font = '30px Verdana';
-ctx.fillText('A', 0, 30);
-const data = ctx.getImageData(0, 0, 100, 100);
+ctx.font = '24px Alegreya Sans SC';
+ctx.fillText('Canvas', 0, 30);
+const textCordinates = ctx.getImageData(0, 0, 100, 100);
 
 class Particle {
     constructor(x, y) {
@@ -31,10 +32,10 @@ class Particle {
         this.size = 3;
         this.baseX = this.x;
         this.baseY = this.y;
-        this.density = (Math.random() * 30) + 1;
+        this.density = (Math.random() * 40) + 5;
     }
     draw() {
-        ctx.fillStyle = 'red';
+        ctx.fillStyle = 'white';
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
         ctx.closePath();
@@ -51,21 +52,31 @@ class Particle {
         let directionX = forceDirectionX * force * this.density;
         let directionY = forceDirectionY * force * this.density;
         if (distance < mouse.radius) {
-            this.x += directionX;
-            this.y += directionY;
+            this.x -= directionX;
+            this.y -= directionY;
         } else {
-            this.size = 3;
+            if (this.x !== this.baseX) {
+                let dx = this.x - this.baseX;
+                this.x -= dx / 5;
+            }
+            if (this.y !== this.baseY) {
+                let dy = this.y - this.baseY;
+                this.y -= dy / 5;
+            }
         }
     }
 }
 
 function init() {
     particleArray = [];
-    for (let i = 0; i < 1000; i++) {
-        let x = Math.random() * canvas.width;
-        let y = Math.random() * canvas.height;
-        particleArray.push(new Particle(x, y));
-
+    for (let y = 0, y2 = textCordinates.height; y < y2; y++) {
+        for (let x = 0, x2 = textCordinates.width; x < x2; x++) {
+            if (textCordinates.data[(y * 4 * textCordinates.width) + (x * 4) + 3] > 128) {
+                let positionX = x + adjustX;
+                let positionY = y + adjustY;
+                particleArray.push(new Particle(positionX * 20, positionY * 20));
+            }
+        }
     }
 }
 
